@@ -47,7 +47,7 @@ public class Tela_Login extends JFrame {
 	String Emessage = "Usuario ou CPF incorretos";
 	public Tela_Login() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
+		setBounds(100, 100, 450, 350);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
@@ -86,15 +86,15 @@ public class Tela_Login extends JFrame {
 					if(txtUsuario.getText().equals(usuarioA)&&txtCPF.getText().equals(cpfA)) {
 						Tela_Cadastro cadastro = new Tela_Cadastro();
 						setContentPane(cadastro);
-						 revalidate();
+						revalidate();
 					}else {
 						JOptionPane.showMessageDialog(null, Emessage, "Erro!!!",JOptionPane.ERROR_MESSAGE);
 					}
 				}else if (!checkAdmin.isSelected()) {
 					if(txtUsuario.getText().equals(usuarioN)&&txtCPF.getText().equals(cpfN)) {
-						dispose();
 						Tela_Produtos produtos = new Tela_Produtos();
-						produtos.setVisible(true);
+						setContentPane(produtos);
+						revalidate();
 					}else {
 						JOptionPane.showMessageDialog(null, Emessage, "Erro!!!",JOptionPane.ERROR_MESSAGE);
 					}
