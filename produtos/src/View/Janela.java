@@ -1,6 +1,7 @@
 package View;
 
 import java.awt.CardLayout;
+import java.awt.Dimension;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -17,11 +18,14 @@ public class Janela extends JFrame {
 	 */
 
 	public Janela() {
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(0, 0, 500, 275);
 
 		this.cardLayout = new CardLayout();
 
-		this.contentPane = new JPanel(cardLayout);
-		this.contentPane.setBorder(new EmptyBorder(0, 0, 0, 0));
+		this.contentPane = new JPanel(this.cardLayout);
+		this.contentPane.setPreferredSize(new Dimension(500, 275)); 
+		this.contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(this.contentPane);
 
 	}
