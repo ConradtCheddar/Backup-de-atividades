@@ -1,11 +1,8 @@
 package Controller;
 
-import javax.swing.JOptionPane;
-
+import Model.Usuario;
 import Model.UsuarioDAO;
 import View.TelaDeLogin;
-import produtos.Tela_Cadastro;
-import produtos.Tela_Produtos;
 
 public class LoginController {
 	private final UsuarioDAO model;
@@ -18,28 +15,33 @@ public class LoginController {
 		this.model = model;
 		this.navegador = navegador;
 		
-		String usuarioA = "henrique";
-		String usuarioN = "gustavo";
-		String cpfA = "321";
-		String cpfN = "123";
+		
 		String Emessage = "Usuario ou CPF incorretos";
 		
 		this.view.confirmar(e ->{
-			if(this.view.getcheckAdmin().isSelected()) {
-				if(this.view.getUsuario().equals(usuarioA)&&this.view.getCPF().equals(cpfA)) {
-					navegador.navegarPara("");
-				}else {
-					JOptionPane.showMessageDialog(null, Emessage, "Erro!!!",JOptionPane.ERROR_MESSAGE);
+			String nome = view.getUsuario();
+			String cpf = view.getCPF();
+
+			UsuarioDAO dao = new UsuarioDAO();
+			Usuario u = dao.login(nome, cpf);
+			
+			if (u != null) {
+				if (u.isAdmin()) {
+						navegador.navegarPara("ADMIN");
+				} else if (!u.isAdmin()) {
+						navegador.navegarPara("LOGIN");
+					} else {
+						navegador.navegarPara("LOGIN");
+					}
 				}
-			}else if (!this.view.getcheckAdmin().isSelected()) {
-				if(this.view.getUsuario().equals(usuarioN)&&this.view.getCPF().equals(cpfN)) {
-					navegador.navegarPara("");
-				}else {
-					JOptionPane.showMessageDialog(null, Emessage, "Erro!!!",JOptionPane.ERROR_MESSAGE);
-				}
-			}
 			
 		});
+		
+		this.view.SemCadastro(e ->{
+			navegador.navegarPara("CADASTRO");
+		});
+		
+		
 		
 	}
 

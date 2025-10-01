@@ -19,12 +19,12 @@ public class Janela extends JFrame {
 
 	public Janela() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(0, 0, 500, 275);
+		setBounds(0, 0, 400, 300);
 
 		this.cardLayout = new CardLayout();
 
 		this.contentPane = new JPanel(this.cardLayout);
-		this.contentPane.setPreferredSize(new Dimension(500, 275)); 
+		this.contentPane.setPreferredSize(new Dimension(500, 400)); 
 		this.contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(this.contentPane);
 

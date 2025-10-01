@@ -2,7 +2,6 @@ package Controller;
 
 import Model.UsuarioDAO;
 import View.TelaDeAdmin;
-import View.TelaDeLogin;
 
 public class AdminController {
 

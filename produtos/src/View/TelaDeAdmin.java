@@ -1,16 +1,16 @@
 package View;
 
-import javax.swing.JPanel;
-import javax.swing.JLabel;
-import javax.swing.JTextField;
-import javax.swing.JComboBox;
-import javax.swing.JTextArea;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionListener;
 
-import javax.swing.SwingConstants;
 import javax.swing.JButton;
-import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 
 public class TelaDeAdmin extends JPanel {
 
@@ -25,6 +25,7 @@ public class TelaDeAdmin extends JPanel {
 	 */
 	public TelaDeAdmin() {
 		setLayout(null);
+		setPreferredSize(new Dimension(500, 400));
 		
 		JLabel lblTitulo = new JLabel("Cadastro de produto");
 		lblTitulo.setHorizontalAlignment(SwingConstants.CENTER);
@@ -51,11 +52,11 @@ public class TelaDeAdmin extends JPanel {
 		add(lblPreco);
 		
 		JComboBox cbCategoria = new JComboBox();
-		cbCategoria.setBounds(227, 69, 213, 22);
+		cbCategoria.setBounds(256, 69, 213, 22);
 		add(cbCategoria);
 		
 		JTextArea txtDescricao = new JTextArea();
-		txtDescricao.setBounds(21, 182, 196, 107);
+		txtDescricao.setBounds(21, 182, 196, 193);
 		add(txtDescricao);
 		
 		JLabel lblDescricao = new JLabel("Descrição");
@@ -64,11 +65,11 @@ public class TelaDeAdmin extends JPanel {
 		
 		JButton btnCadastrar = new JButton("Cadastrar");
 		btnCadastrar.setFont(new Font("Tahoma", Font.PLAIN, 30));
-		btnCadastrar.setBounds(251, 241, 173, 48);
+		btnCadastrar.setBounds(280, 306, 173, 48);
 		add(btnCadastrar);
 		
 		JLabel lblCategoria = new JLabel("Categoria");
-		lblCategoria.setBounds(227, 45, 86, 14);
+		lblCategoria.setBounds(256, 45, 86, 14);
 		add(lblCategoria);
 
 	}
