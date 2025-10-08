@@ -22,12 +22,12 @@ public class LoginController {
 			String nome = view.getUsuario();
 			String cpf = view.getCPF();
 
-			UsuarioDAO dao = new UsuarioDAO();
+			UsuarioDAO dao = new UsuarioDAO(navegador);
 			Usuario u = dao.login(nome, cpf);
 			
 			if (u != null) {
 				if (u.isAdmin()) {
-						navegador.navegarPara("ADMIN");
+						navegador.navegarPara("CADPRO");
 				} else if (!u.isAdmin()) {
 						navegador.navegarPara("LOGIN");
 					} else {
@@ -38,7 +38,7 @@ public class LoginController {
 		});
 		
 		this.view.SemCadastro(e ->{
-			navegador.navegarPara("CADASTRO");
+			navegador.navegarPara("CADUSU");
 		});
 		
 		

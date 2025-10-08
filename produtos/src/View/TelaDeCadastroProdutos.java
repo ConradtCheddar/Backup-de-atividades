@@ -4,6 +4,7 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionListener;
 
+import javax.swing.AbstractButton;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -12,18 +13,20 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
-public class TelaDeAdmin extends JPanel {
+public class TelaDeCadastroProdutos extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 	private JTextField txtNome;
 	private JTextField txtPreco;
 	private JButton btnCadastrar;
 	private JComboBox cbCategoria;
+	private JTextArea txtDescricao;
+	private JTextField txtEstoque;
 
 	/**
 	 * Create the panel.
 	 */
-	public TelaDeAdmin() {
+	public TelaDeCadastroProdutos() {
 		setLayout(null);
 		setPreferredSize(new Dimension(500, 400));
 		
@@ -43,7 +46,7 @@ public class TelaDeAdmin extends JPanel {
 		txtNome.setColumns(10);
 		
 		txtPreco = new JTextField();
-		txtPreco.setBounds(21, 126, 196, 20);
+		txtPreco.setBounds(21, 126, 86, 20);
 		add(txtPreco);
 		txtPreco.setColumns(10);
 		
@@ -51,11 +54,11 @@ public class TelaDeAdmin extends JPanel {
 		lblPreco.setBounds(21, 101, 86, 14);
 		add(lblPreco);
 		
-		JComboBox cbCategoria = new JComboBox();
+		cbCategoria = new JComboBox();
 		cbCategoria.setBounds(256, 69, 213, 22);
 		add(cbCategoria);
 		
-		JTextArea txtDescricao = new JTextArea();
+		txtDescricao = new JTextArea();
 		txtDescricao.setBounds(21, 182, 196, 193);
 		add(txtDescricao);
 		
@@ -63,7 +66,7 @@ public class TelaDeAdmin extends JPanel {
 		lblDescricao.setBounds(21, 157, 86, 14);
 		add(lblDescricao);
 		
-		JButton btnCadastrar = new JButton("Cadastrar");
+		btnCadastrar = new JButton("Cadastrar");
 		btnCadastrar.setFont(new Font("Tahoma", Font.PLAIN, 30));
 		btnCadastrar.setBounds(280, 306, 173, 48);
 		add(btnCadastrar);
@@ -71,28 +74,68 @@ public class TelaDeAdmin extends JPanel {
 		JLabel lblCategoria = new JLabel("Categoria");
 		lblCategoria.setBounds(256, 45, 86, 14);
 		add(lblCategoria);
+		
+		txtEstoque = new JTextField();
+		txtEstoque.setBounds(131, 126, 86, 20);
+		add(txtEstoque);
+		txtEstoque.setColumns(10);
+		
+		JLabel lblEstoque = new JLabel("Quantidade");
+		lblEstoque.setBounds(131, 101, 86, 14);
+		add(lblEstoque);
 
 	}
 	
 	/**
-	 * metodo responsavel por salvar o dado do campo "nome"
+	 * metodo responsavel por salvar o dado do campo "nome do produto"
 	 */
-	public String getUsuario() {
+	public String getNome_Produto() {
 		return this.txtNome.getText();
 	}
 	
 	/**
 	 * metodo responsavel por salvar o dado do campo "preço"
 	 */
-	public String getCPF() {
+	public String getPreco() {
 		return this.txtPreco.getText();
+	}
+	/**
+	 * metodo responsavel por adicionar opções para a combobox "categoria"
+	 */
+	public void setItems() {
+		this.cbCategoria.addItem("Hortifrúti");
+		this.cbCategoria.addItem("Mercearia");
+		this.cbCategoria.addItem("Padaria");
+		this.cbCategoria.addItem("Açougue/Peixaria");
+		this.cbCategoria.addItem("Frios e Laticínios");
+		this.cbCategoria.addItem("Bebidas");
+		this.cbCategoria.addItem("Higiene e Beleza");
+		this.cbCategoria.addItem("Produtos de Limpeza");
+	}
+	/**
+	 * metodo responsavel por salvar o dado do campo "categoria"
+	 */
+	public String getCategoria() {
+		return (String) this.cbCategoria.getSelectedItem();
+	}
+	/**
+	 * metodo responsavel por salvar o dado do campo "descricao"
+	 */
+	public String getDescricao() {
+		return this.txtDescricao.getText();
+	}
+	/**
+	 * metodo responsavel por salvar o dado do campo "quantidade estoque"
+	 */
+	public String getEstoque() {
+		return this.txtEstoque.getText();
 	}
 	
 	
 	/**
 	 * Metodo responsavel pelo funcionamento do botão "Confirmar"
 	 */
-	public void cadastrar(ActionListener actionListener) {
+	public void cadastrarProdutos(ActionListener actionListener) {
 		this.btnCadastrar.addActionListener(actionListener);
 	}
 	
@@ -103,6 +146,4 @@ public class TelaDeAdmin extends JPanel {
 	public String categoria() {
 		return cbCategoria.getSelectedItem().toString();
 	}
-	
-	
 }

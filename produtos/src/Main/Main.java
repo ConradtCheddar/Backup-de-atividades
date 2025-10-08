@@ -1,12 +1,13 @@
 package Main;
 
-import Controller.AdminController;
-import Controller.CadastroController;
+import Controller.CadastroProdutosController;
+import Controller.CadastroUsuariosController;
 import Controller.LoginController;
 import Controller.Navegador;
+import Model.ProdutoDAO;
 import Model.UsuarioDAO;
 import View.Janela;
-import View.TelaDeAdmin;
+import View.TelaDeCadastroProdutos;
 import View.TelaDeCadastroUsuarios;
 import View.TelaDeLogin;
 
@@ -17,21 +18,22 @@ public class Main {
 		
 		Janela janela = new Janela();
 		Navegador navegador =new Navegador(janela);
-		UsuarioDAO usuarioDAO = new UsuarioDAO();
+		UsuarioDAO usuarioDAO = new UsuarioDAO(navegador);
+		ProdutoDAO produtoDAO = new ProdutoDAO(navegador);
 		
 		TelaDeLogin telaDeLogin = new TelaDeLogin();
 		LoginController loginController = new LoginController(telaDeLogin, usuarioDAO, navegador);
 		
-		TelaDeAdmin telaDeAdmin = new TelaDeAdmin();
-		AdminController adminController = new AdminController(telaDeAdmin,usuarioDAO,navegador);
+		TelaDeCadastroProdutos telaDeCadastroProdutos = new TelaDeCadastroProdutos();
+		CadastroProdutosController cadastroProdutosController = new CadastroProdutosController(telaDeCadastroProdutos,produtoDAO,navegador);
 		
 		TelaDeCadastroUsuarios telaDeCadastroUsuarios = new TelaDeCadastroUsuarios();
-		CadastroController cadastroController = new CadastroController(telaDeCadastroUsuarios, usuarioDAO, navegador);
+		CadastroUsuariosController cadastroController = new CadastroUsuariosController(telaDeCadastroUsuarios, usuarioDAO, navegador);
 		
 		
 		navegador.adicionarPainel("LOGIN", telaDeLogin);
-		navegador.adicionarPainel("ADMIN", telaDeAdmin);
-		navegador.adicionarPainel("CADASTRO", telaDeCadastroUsuarios);
+		navegador.adicionarPainel("CADPRO", telaDeCadastroProdutos);
+		navegador.adicionarPainel("CADUSU", telaDeCadastroUsuarios);
 		
 		
 		janela.setLocationRelativeTo(null);

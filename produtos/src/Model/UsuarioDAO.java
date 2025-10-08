@@ -10,7 +10,11 @@ import Controller.Navegador;
 
 public class UsuarioDAO {
 	
-	Navegador n = new Navegador(null);
+	private final Navegador n;
+	
+	public UsuarioDAO(Navegador n) {
+		this.n = n;
+	}
 	
 	public Usuario login(String nome, String cpf) {
 		try {
@@ -46,7 +50,7 @@ public class UsuarioDAO {
 		return null;
 	}
 	
-	public void cadastrar(Usuario u) throws ClassNotFoundException {
+	public void cadastrarU(Usuario u) throws ClassNotFoundException {
 
 			if (u.getUsuario().isEmpty() || u.getCpf().isEmpty()) {
 
@@ -65,9 +69,9 @@ public class UsuarioDAO {
 						String sql = "INSERT INTO Usuarios (nome_usuario, CPF, admin) VALUES (?, ?, ?)";
 						var stmt = conn.prepareStatement(sql);
 						
-						stmt.setString(2, u.getUsuario()); // Nome
-						stmt.setString(3, u.getCpf()); // CPF
-						stmt.setBoolean(6, u.isAdmin()); // Admin
+						stmt.setString(1, u.getUsuario()); // Nome
+						stmt.setString(2, u.getCpf()); // CPF
+						stmt.setBoolean(3, u.isAdmin()); // Admin
 
 						stmt.executeUpdate();
 						JOptionPane.showMessageDialog(null, "Usuário cadastrado com sucesso!", "Sucesso!",

@@ -89,7 +89,7 @@ public class TelaDeCadastroUsuarios extends JPanel {
 	/**
 	 * Metodo responsavel pelo funcionamento do botão "Cadastrar"
 	 */
-	public void cadastrar(ActionListener actionListener) {
+	public void cadastrarUsuarios(ActionListener actionListener) {
 		this.btnCadastrar.addActionListener(actionListener);
 	}
 	
