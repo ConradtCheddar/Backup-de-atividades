@@ -31,5 +31,9 @@ public class CadastroUsuariosController {
 			navegador.navegarPara("LOGIN");
 		});
 		
+		this.view.voltar(e ->{
+			navegador.navegarPara("LOGIN");
+		});
+		
 	}
 }

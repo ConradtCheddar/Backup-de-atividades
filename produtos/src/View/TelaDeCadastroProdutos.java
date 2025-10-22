@@ -18,7 +18,7 @@ public class TelaDeCadastroProdutos extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private JTextField txtNome;
 	private JTextField txtPreco;
-	private JButton btnCadastrar;
+	private JButton btnCadastrar, btnVoltar;
 	private JComboBox cbCategoria;
 	private JTextArea txtDescricao;
 	private JTextField txtEstoque;
@@ -83,6 +83,10 @@ public class TelaDeCadastroProdutos extends JPanel {
 		JLabel lblEstoque = new JLabel("Quantidade");
 		lblEstoque.setBounds(131, 101, 86, 14);
 		add(lblEstoque);
+		
+		btnVoltar = new JButton("Voltar");
+		btnVoltar.setBounds(322, 272, 89, 23);
+		add(btnVoltar);
 
 	}
 	
@@ -145,5 +149,12 @@ public class TelaDeCadastroProdutos extends JPanel {
 	 */
 	public String categoria() {
 		return cbCategoria.getSelectedItem().toString();
+	}
+	
+	/**
+	 * Metodo responsavel pelo funcionamento do botão "Voltar"
+	 */
+	public void voltar(ActionListener action) {
+		btnVoltar.addActionListener(action);
 	}
 }

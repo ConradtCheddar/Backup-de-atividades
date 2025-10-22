@@ -18,6 +18,7 @@ public class TelaDeCadastroUsuarios extends JPanel {
 	private JButton btnCadastrar;
 	private JCheckBox checkAdmin;
 	private JLabel Titulo;
+	private JButton btnVoltar;
 
 	/**
 	 * Create the panel.
@@ -62,6 +63,10 @@ public class TelaDeCadastroUsuarios extends JPanel {
 		Titulo.setFont(new Font("Tahoma", Font.PLAIN, 25));
 		Titulo.setBounds(133, 11, 214, 46);
 		add(Titulo);
+		
+		btnVoltar = new JButton("Voltar");
+		btnVoltar.setBounds(29, 344, 89, 23);
+		add(btnVoltar);
 	}
 	
 	/**
@@ -91,6 +96,12 @@ public class TelaDeCadastroUsuarios extends JPanel {
 	 */
 	public void cadastrarUsuarios(ActionListener actionListener) {
 		this.btnCadastrar.addActionListener(actionListener);
+	}
+	/**
+	 * Metodo responsavel pelo funcionamento do botão "Voltar"
+	 */
+	public void voltar(ActionListener action) {
+		this.btnVoltar.addActionListener(action);
 	}
 	
 	

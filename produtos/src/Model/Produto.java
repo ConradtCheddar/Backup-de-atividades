@@ -7,6 +7,7 @@ public class Produto {
 	private Double preco;
 	private String descricao;
 	private int q_estoque;
+	private int id;
 
 	public Produto(String nome_produto, String categoria, Double preco, String descricao, int q_estoque) {
 		this.nome_produto = nome_produto;
@@ -56,6 +57,15 @@ public class Produto {
 	public void setQ_estoque(int q_estoque) {
 		this.q_estoque = q_estoque;
 	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+	
 
 	
 

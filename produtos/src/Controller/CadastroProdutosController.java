@@ -37,6 +37,9 @@ public class CadastroProdutosController {
 				}
 
 		});
+		this.view.voltar(e ->{
+			navegador.navegarPara("LOGIN");
+		});
 	}
 
 }

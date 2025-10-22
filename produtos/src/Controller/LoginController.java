@@ -29,7 +29,7 @@ public class LoginController {
 				if (u.isAdmin()) {
 						navegador.navegarPara("CADPRO");
 				} else if (!u.isAdmin()) {
-						navegador.navegarPara("LOGIN");
+						navegador.navegarPara("compra");
 					} else {
 						navegador.navegarPara("LOGIN");
 					}
