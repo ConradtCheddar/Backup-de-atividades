@@ -55,19 +55,19 @@ public class TelaDeProdutos extends JPanel {
 		scrollPane.setViewportView(this.table);
 		
 		btnVisualizar = new JButton("Visualizar");
-		btnVisualizar.setBounds(386, 75, 89, 23);
+		btnVisualizar.setBounds(372, 75, 100, 23);
 		add(btnVisualizar);
 		
 		btnEditar = new JButton("Editar");
-		btnEditar.setBounds(386, 129, 89, 23);
+		btnEditar.setBounds(372, 122, 100, 23);
 		add(btnEditar);
 		
 		btnDeletar = new JButton("Deletar");
-		btnDeletar.setBounds(386, 193, 89, 23);
+		btnDeletar.setBounds(372, 170, 100, 23);
 		add(btnDeletar);
 		
 		btnAdicionar = new JButton("Adicionar");
-		btnAdicionar.setBounds(386, 246, 89, 23);
+		btnAdicionar.setBounds(372, 220, 100, 23);
 		add(btnAdicionar);
 		
 		btnVoltar = new JButton("Voltar");

@@ -106,7 +106,7 @@ public class ProdutosController {
         });
         
         this.view.voltar(e -> {
-            navegador.voltar();
+            navegador.navegarPara("LOGIN");
         });
         
         // Registrar para receber notificações quando a tela for exibida

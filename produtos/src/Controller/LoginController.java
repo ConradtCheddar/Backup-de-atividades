@@ -28,17 +28,22 @@ public class LoginController {
             
             if (u != null) {
                 navegador.setCurrentUser(u);
-                if (u.isAdmin()) {
+                if (u.isAdmin() && this.view.getcheckAdmin().isSelected()) {
                     navegador.navegarPara("Produtos");
-                } else {
+                } else if (!u.isAdmin() && !this.view.getcheckAdmin().isSelected()) {
                     navegador.navegarPara("compra");
-                }
+                } else {
+					JOptionPane.showMessageDialog(view, "Tipo de usuário incorreto selecionado", "Erro de Login", JOptionPane.ERROR_MESSAGE);
+				}
             } else {
                 JOptionPane.showMessageDialog(view, "Usuário ou CPF incorretos", "Erro de Login", JOptionPane.ERROR_MESSAGE);
             }
+            
+            this.view.limparCampos();
         });
         
         this.view.SemCadastro(e -> {
+        	this.view.limparCampos();
             navegador.navegarPara("CADUSU");
         });
     }

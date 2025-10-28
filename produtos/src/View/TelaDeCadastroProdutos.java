@@ -12,6 +12,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import javax.swing.JScrollPane;
 
 public class TelaDeCadastroProdutos extends JPanel {
 
@@ -58,10 +59,6 @@ public class TelaDeCadastroProdutos extends JPanel {
 		cbCategoria.setBounds(256, 69, 213, 22);
 		add(cbCategoria);
 		
-		txtDescricao = new JTextArea();
-		txtDescricao.setBounds(21, 182, 196, 193);
-		add(txtDescricao);
-		
 		JLabel lblDescricao = new JLabel("Descrição");
 		lblDescricao.setBounds(21, 157, 86, 14);
 		add(lblDescricao);
@@ -87,6 +84,15 @@ public class TelaDeCadastroProdutos extends JPanel {
 		btnVoltar = new JButton("Voltar");
 		btnVoltar.setBounds(322, 272, 89, 23);
 		add(btnVoltar);
+		
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(21, 182, 200, 200);
+		add(scrollPane);
+		
+		txtDescricao = new JTextArea();
+		scrollPane.setViewportView(txtDescricao);
+		txtDescricao.setLineWrap(true);
+		txtDescricao.setWrapStyleWord(true);
 
 	}
 	

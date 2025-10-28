@@ -20,8 +20,7 @@ import java.awt.event.ActionEvent;
 public class TelaDeCompra extends JPanel {
 
 	private static final long serialVersionUID = 1L;
-	private JButton btnComprar, btnVoltar;
-	private JComboBox cbCategoria;
+	private JButton btnComprar, btnVoltar, btnVisualizar;
 	private JTable table;
 	private DefaultTableModel model;
 
@@ -32,7 +31,7 @@ public class TelaDeCompra extends JPanel {
 		setLayout(null);
 		setPreferredSize(new Dimension(500, 400));
 		
-		JLabel lblTitulo = new JLabel("Visualização de produto");
+		JLabel lblTitulo = new JLabel("Visualização de produtos");
 		lblTitulo.setHorizontalAlignment(SwingConstants.CENTER);
 		lblTitulo.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		lblTitulo.setBounds(0, 3, 500, 31);
@@ -60,12 +59,16 @@ public class TelaDeCompra extends JPanel {
 		scrollPane.setViewportView(this.table);
 		
 		btnComprar = new JButton("Comprar");
-		btnComprar.setBounds(386, 75, 89, 23);
+		btnComprar.setBounds(386, 75, 100, 23);
 		add(btnComprar);
 		
 		btnVoltar = new JButton("Voltar");
 		btnVoltar.setBounds(386, 341, 89, 23);
 		add(btnVoltar);
+		
+		btnVisualizar = new JButton("Visualizar");
+		btnVisualizar.setBounds(386, 123, 100, 23);
+		add(btnVisualizar);
 
 	}
 	
@@ -94,50 +97,86 @@ public class TelaDeCompra extends JPanel {
 		this.btnVoltar.addActionListener(action);
 	}
 	
+	/**
+	 * funcionalidade do botao voltar
+	 */
+	public void visualizar(ActionListener action) {
+		this.btnVisualizar.addActionListener(action);
+	}
+	
 	
 	/**
 	 * getters e setters
 	 */
-
-	public JButton getBtnComprar() {
-		return btnComprar;
-	}
-
-	public void setBtnComprar(JButton btnComprar) {
-		this.btnComprar = btnComprar;
-	}
-
-	public JButton getBtnVoltar() {
-		return btnVoltar;
-	}
-
-	public void setBtnVoltar(JButton btnVoltar) {
-		this.btnVoltar = btnVoltar;
-	}
-
-	public JComboBox getCbCategoria() {
-		return cbCategoria;
-	}
-
-	public void setCbCategoria(JComboBox cbCategoria) {
-		this.cbCategoria = cbCategoria;
-	}
-
 	public JTable getTable() {
-		return table;
-	}
+        return this.table;
+    }
 
-	public void setTable(JTable table) {
-		this.table = table;
-	}
+    public void setTable(JTable table) {
+        this.table = table;
+    }
 
-	public DefaultTableModel getModel() {
-		return model;
-	}
+    public DefaultTableModel getModel() {
+        return model;
+    }
 
-	public void setModel(DefaultTableModel model) {
-		this.model = model;
-	}
+    public void setModel(DefaultTableModel model) {
+        this.model = model;
+    }
+
+    public JButton getBtnComprar() {
+        return btnComprar;
+    }
+
+    public void setBtnComprar(JButton btnComprar) {
+        this.btnComprar = btnComprar;
+    }
+
+    public JButton getBtnVoltar() {
+        return btnVoltar;
+    }
+
+    public void setBtnVoltar(JButton btnVoltar) {
+        this.btnVoltar = btnVoltar;
+    }
+
+    // Utility methods
+    public Integer getSelectedId() {
+        int row = table.getSelectedRow();
+        if (row != -1) {
+            return (Integer) table.getValueAt(row, 0);
+        }
+        return null;
+    }
+
+    public Integer getSelectedQuantity() {
+        int row = table.getSelectedRow();
+        if (row != -1) {
+            return (Integer) table.getValueAt(row, 5); // Q_estoque column
+        }
+        return null;
+    }
+
+    public String getSelectedProduct() {
+        int row = table.getSelectedRow();
+        if (row != -1) {
+            return (String) table.getValueAt(row, 1); // Nome column
+        }
+        return null;
+    }
+
+    public Double getSelectedPrice() {
+        int row = table.getSelectedRow();
+        if (row != -1) {
+            Object value = table.getValueAt(row, 3); // Preço column
+            if (value instanceof Double) {
+                return (Double) value;
+            } else if (value instanceof String) {
+                return Double.parseDouble(((String) value).replace(",", "."));
+            }
+        }
+        return null;
+    }
 
 	public static long getSerialversionuid() {
 		return serialVersionUID;

@@ -51,13 +51,6 @@ public class Navegador {
 	public Usuario getCurrentUser() {
 		return this.currentUser;
 	}
-	
-	/**
-     * Método para voltar à tela anterior
-     */
-    public void voltar() {
-        navegarPara("menu");
-    }
     
     /**
      * Adiciona um listener para ser notificado quando uma tela específica é exibida

@@ -26,10 +26,12 @@ public class CadastroUsuariosController {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
+				this.view.limparCampos();
 			navegador.navegarPara("LOGIN");
 		});
 		
 		this.view.voltar(e ->{
+			this.view.limparCampos();
 			navegador.navegarPara("LOGIN");
 		});
 		

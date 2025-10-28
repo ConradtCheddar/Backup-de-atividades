@@ -6,15 +6,18 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
+import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import javax.swing.text.MaskFormatter;
 
 public class TelaDeCadastroUsuarios extends JPanel {
 
 	private static final long serialVersionUID = 1L;
-	private JTextField txtUsuario, txtCPF;
+	private JTextField txtUsuario;
+	private JFormattedTextField txtCPF;
 	private JButton btnCadastrar;
 	private JCheckBox checkAdmin;
 	private JLabel Titulo;
@@ -43,8 +46,14 @@ public class TelaDeCadastroUsuarios extends JPanel {
 		lblNewLabel.setBounds(46, 168, 116, 23);
 		add(lblNewLabel);
 		
-		txtCPF = new JTextField();
+		txtCPF = new JFormattedTextField();
 		txtCPF.setBounds(46, 222, 403, 23);
+		aplicarMascaraCPF(txtCPF);
+		txtCPF.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                txtCPF.setCaretPosition(0);
+            }
+        });
 		add(txtCPF);
 		txtCPF.setColumns(10);
 		
@@ -103,6 +112,28 @@ public class TelaDeCadastroUsuarios extends JPanel {
 	public void voltar(ActionListener action) {
 		this.btnVoltar.addActionListener(action);
 	}
+	
+	/**
+	 * Metodo responsavel por limpar os campos de texto
+	 */
+	public void limparCampos() {
+		this.txtUsuario.setText("");
+		this.txtCPF.setText("");
+	}
+	
+	/**
+	 * Método para aplicar a máscara de CPF
+	 * @param field
+	 */
+		private void aplicarMascaraCPF(JFormattedTextField field) {
+			try {
+				MaskFormatter mask = new MaskFormatter("###.###.###-##");
+				mask.setPlaceholderCharacter('_');
+				mask.install(field);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
 	
 	
 	

@@ -12,21 +12,21 @@ create table if not exists Usuarios
 (
 ID_usuario int primary key auto_increment,
 nome_usuario varchar(50) not null,
-CPF varchar(15) not null,
+CPF varchar(15) not null unique,
 admin boolean
 );
 create table if not exists Produtos
 (
 ID_produto int primary key auto_increment,
 nome_produto varchar(20) not null,
-categoria varchar(20) not null,
-preco varchar(10) not null,
+categoria varchar(25) not null,
+preco Double not null,
 descricao longtext not null,
 q_estoque int not null
 );
 
 insert into Usuarios (nome_usuario, CPF, admin)
-select 'Henrique', '123', true
+select 'Henrique', '000.000.000.00', true
 where not exists(
 select 1 from Usuarios where ID_usuario = 1);
 

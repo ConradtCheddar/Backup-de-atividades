@@ -6,15 +6,18 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
+import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import javax.swing.text.MaskFormatter;
 
 public class TelaDeLogin extends JPanel {
 
 	private static final long serialVersionUID = 1L;
-	private JTextField txtUsuario, txtCPF;
+	private JTextField txtUsuario;
+	private JFormattedTextField txtCPF;
 	private JButton btnConfirma, btnSemCadastro;
 	private JCheckBox checkAdmin;
 	private JLabel Titulo;
@@ -42,10 +45,17 @@ public class TelaDeLogin extends JPanel {
 		lblNewLabel.setBounds(46, 168, 116, 23);
 		add(lblNewLabel);
 		
-		txtCPF = new JTextField();
+		txtCPF = new JFormattedTextField();
 		txtCPF.setBounds(46, 222, 403, 23);
+		aplicarMascaraCPF(txtCPF);
+		txtCPF.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                txtCPF.setCaretPosition(0);
+            }
+        });
 		add(txtCPF);
 		txtCPF.setColumns(10);
+		
 		
 		checkAdmin = new JCheckBox("Admin?");
 		checkAdmin.setFont(new Font("Tahoma", Font.PLAIN, 15));
@@ -103,6 +113,28 @@ public class TelaDeLogin extends JPanel {
 	public void SemCadastro(ActionListener actionListener) {
 		this.btnSemCadastro.addActionListener(actionListener);
 	}
+	
+	/**
+	 * Metodo responsavel por limpar os campos de texto
+	 */
+	public void limparCampos() {
+		this.txtUsuario.setText("");
+		this.txtCPF.setText("");
+	}
+	
+	/**
+	 * Método para aplicar a máscara de CPF
+	 * @param field
+	 */
+		private void aplicarMascaraCPF(JFormattedTextField field) {
+			try {
+				MaskFormatter mask = new MaskFormatter("###.###.###-##");
+				mask.setPlaceholderCharacter('_');
+				mask.install(field);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
 
 	
 	
