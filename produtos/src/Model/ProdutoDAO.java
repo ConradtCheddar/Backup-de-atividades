@@ -2,209 +2,238 @@ package Model;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.SQLException;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.util.ArrayList;
-
 import javax.swing.JOptionPane;
 
-import Controller.Navegador;
-
 public class ProdutoDAO {
+    
+    public ArrayList<Produto> buscarTodosProdutos() {
+        ArrayList<Produto> listaProdutos = new ArrayList<>();
+        Connection conn = null;
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            conn = DriverManager.getConnection(
+                "jdbc:mysql://localhost:3306/MercadoBD",
+                "mercado",
+                "1234"
+            );
 
-	private final Navegador n;
+            String sql = "SELECT * FROM Produtos";
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            ResultSet rs = stmt.executeQuery();
 
-	public ProdutoDAO(Navegador n) {
-		this.n = n;
-	}
-	
-	public Produto buscarServicoPorId(int id) {
-		Produto p = null;
-		try {
-			Class.forName("com.mysql.cj.jdbc.Driver");
-			Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/MercadoBD", "mercado",
-					"1234");
-			String sql = "SELECT * FROM Servico WHERE ID_servico = ?";
-			var stmt = conn.prepareStatement(sql);
-			stmt.setInt(1, id);
-			var rs = stmt.executeQuery();
-			if (rs.next()) {
-				p = new Produto(getStringSafe(rs, "nome_servico", "nome_produto", "nome"), getStringSafe(rs, "categoria", "cat"),
-						rs.getDouble("preco"), getStringSafe(rs, "descrição", "descricao"), rs.getInt("q_estoque"));
-				p.setId(rs.getInt("ID_produto"));
-				
-			}
-			rs.close();
-			stmt.close();
-			conn.close();
-		} catch (Exception ex) {
-			ex.printStackTrace();
-		}
-		return p;
-	}
-	
-	 public void deletarServico(int id) {
-	     try {
-			Class.forName("com.mysql.cj.jdbc.Driver");
-			Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/MercadoBD", "mercado",
-					"1234");
-			
-			String sql = "Delete from Produtos where ID_produto = ?";
-			var stmt = conn.prepareStatement(sql);
-			stmt.setInt(1, id);
-			int rowsAffected = stmt.executeUpdate();
-			
-			stmt.close();
-			conn.close();
-			} catch (Exception ex) {
-		        ex.printStackTrace();
-		        JOptionPane.showMessageDialog(null, "Erro ao comprar.", "Erro", JOptionPane.ERROR_MESSAGE);
-		    }
-	    
-	    }
+            while (rs.next()) {
+                try {
+                    // Converte o preço de VARCHAR para Double
+                    String precoStr = rs.getString("preco").replace(",", ".");
+                    Double preco = Double.parseDouble(precoStr);
+                    
+                    Produto p = new Produto(
+                        rs.getInt("ID_produto"),
+                        rs.getString("nome_produto"),
+                        rs.getString("categoria"),
+                        preco,
+                        rs.getString("descricao"),
+                        rs.getInt("q_estoque")
+                    );
+                    listaProdutos.add(p);
+                } catch (Exception e) {
+                    System.err.println("[ERROR] Erro ao carregar produto: " + e.getMessage());
+                }
+            }
+            rs.close();
+            stmt.close();
+        } catch (Exception ex) {
+            System.err.println("[ERROR] Erro ao buscar produtos: " + ex.getMessage());
+        } finally {
+            if (conn != null) {
+                try {
+                    conn.close();
+                } catch (Exception e) {
+                    System.err.println("[ERROR] Erro ao fechar conexão: " + e.getMessage());
+                }
+            }
+        }
+        return listaProdutos;
+    }
 
-	public void cadastrarProdutos(Produto p) throws ClassNotFoundException {
+    public boolean deletarProduto(int id) {
+        Connection conn = null;
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            conn = DriverManager.getConnection(
+                "jdbc:mysql://localhost:3306/MercadoBD",
+                "mercado",
+                "1234"
+            );
 
-		if (p.getNome_produto().isEmpty() || p.getCategoria().isEmpty() || p.getPreco() == 0
-				|| p.getDescricao().isEmpty() || p.getQ_estoque() == 0) {
+            String sql = "DELETE FROM Produtos WHERE ID_produto = ?";
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            stmt.setInt(1, id);
+            
+            int rowsAffected = stmt.executeUpdate();
+            stmt.close();
+            return rowsAffected > 0;
+        } catch (Exception ex) {
+            System.err.println("[ERROR] Erro ao deletar produto: " + ex.getMessage());
+            return false;
+        } finally {
+            if (conn != null) {
+                try {
+                    conn.close();
+                } catch (Exception e) {
+                    System.err.println("[ERROR] Erro ao fechar conexão: " + e.getMessage());
+                }
+            }
+        }
+    }
 
-			JOptionPane.showMessageDialog(null, "Preencha todos os campos", "Erro", JOptionPane.ERROR_MESSAGE);
+    public Produto buscarProdutoPorId(int id) {
+        Connection conn = null;
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            conn = DriverManager.getConnection(
+                "jdbc:mysql://localhost:3306/MercadoBD",
+                "mercado",
+                "1234"
+            );
 
-		} else {
+            String sql = "SELECT * FROM Produtos WHERE ID_produto = ?";
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            stmt.setInt(1, id);
+            ResultSet rs = stmt.executeQuery();
 
-			try {
-				Class.forName("com.mysql.cj.jdbc.Driver");
-				Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/MercadoBD", "mercado",
-						"1234");
+            if (rs.next()) {
+                String precoStr = rs.getString("preco").replace(",", ".");
+                Double preco = Double.parseDouble(precoStr);
+                
+                Produto p = new Produto(
+                    rs.getInt("ID_produto"),
+                    rs.getString("nome_produto"),
+                    rs.getString("categoria"),
+                    preco,
+                    rs.getString("descricao"),
+                    rs.getInt("q_estoque")
+                );
+                rs.close();
+                stmt.close();
+                return p;
+            }
+        } catch (Exception ex) {
+            System.err.println("[ERROR] Erro ao buscar produto: " + ex.getMessage());
+        } finally {
+            if (conn != null) {
+                try {
+                    conn.close();
+                } catch (Exception e) {
+                    System.err.println("[ERROR] Erro ao fechar conexão: " + e.getMessage());
+                }
+            }
+        }
+        return null;
+    }
 
-				String sql = "INSERT INTO Produtos (nome_produto, categoria, preco, descrição, q_estoque) VALUES (?, ?, ?, ?, ?)";
-				var stmt = conn.prepareStatement(sql);
+    public boolean atualizarProduto(int idProduto, Produto p) {
+        // Validações de acordo com o schema do banco
+        if (p.getNome_produto().length() > 20 || p.getCategoria().length() > 20) {
+            JOptionPane.showMessageDialog(null, "Nome do produto e categoria devem ter no máximo 20 caracteres", "Erro", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+        String precoStr = String.format("%.2f", p.getPreco());
+        if (precoStr.length() > 10) {
+            JOptionPane.showMessageDialog(null, "Valor do preço muito grande", "Erro", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+        
+        Connection conn = null;
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            conn = DriverManager.getConnection(
+                "jdbc:mysql://localhost:3306/MercadoBD",
+                "mercado",
+                "1234"
+            );
+            
+            String sql = "UPDATE Produtos SET nome_produto = ?, categoria = ?, preco = ?, descricao = ?, q_estoque = ? WHERE ID_produto = ?";
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            
+            stmt.setString(1, p.getNome_produto());
+            stmt.setString(2, p.getCategoria());
+            stmt.setString(3, precoStr);
+            stmt.setString(4, p.getDescricao());
+            stmt.setInt(5, p.getQ_estoque());
+            stmt.setInt(6, idProduto);
+            
+            int rowsAffected = stmt.executeUpdate();
+            stmt.close();
+            return rowsAffected > 0;
+        } catch (Exception ex) {
+            System.err.println("[ERROR] Erro ao atualizar produto: " + ex.getMessage());
+            return false;
+        } finally {
+            if (conn != null) {
+                try {
+                    conn.close();
+                } catch (Exception e) {
+                    System.err.println("[ERROR] Erro ao fechar conexão: " + e.getMessage());
+                }
+            }
+        }
+    }
 
-				stmt.setString(1, p.getNome_produto()); // Nome
-				stmt.setString(2, p.getCategoria()); // Categoria
-				stmt.setDouble(3, p.getPreco()); // preco
-				stmt.setString(4, p.getDescricao()); // descrição
-				stmt.setInt(5, p.getQ_estoque()); // quantidade em estoque
+    public void cadastrarProdutos(Produto p) throws ClassNotFoundException {
+        // Validações de acordo com o schema do banco
+        if (p.getNome_produto().length() > 20 || p.getCategoria().length() > 20) {
+            JOptionPane.showMessageDialog(null, "Nome do produto e categoria devem ter no máximo 20 caracteres", "Erro", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        String precoStr = String.format("%.2f", p.getPreco());
+        if (precoStr.length() > 10) {
+            JOptionPane.showMessageDialog(null, "Valor do preço muito grande", "Erro", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
+        if (p.getNome_produto().isEmpty() || p.getCategoria().isEmpty() || p.getPreco() == 0
+                || p.getDescricao().isEmpty() || p.getQ_estoque() == 0) {
+            JOptionPane.showMessageDialog(null, "Preencha todos os campos", "Erro", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
 
-				stmt.executeUpdate();
-				JOptionPane.showMessageDialog(null, "produto cadastrado com sucesso!", "Sucesso!",
-						JOptionPane.PLAIN_MESSAGE);
-				n.navegarPara("LOGIN");
+        Connection conn = null;
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            conn = DriverManager.getConnection(
+                "jdbc:mysql://localhost:3306/MercadoBD",
+                "mercado",
+                "1234"
+            );
 
-				stmt.close();
-				conn.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-				JOptionPane.showMessageDialog(null, "Erro ao salvar: " + e.getMessage());
-				;
-			}
+            String sql = "INSERT INTO Produtos (nome_produto, categoria, preco, descricao, q_estoque) VALUES (?, ?, ?, ?, ?)";
+            PreparedStatement stmt = conn.prepareStatement(sql);
 
-		}
-	}
-	
-	/**
-	 * Recupera todos os produtos da tabela Produtos
-	 * Retorna uma lista vazia em caso de erro
-	 */
-	public ArrayList<Produto> buscarTodosProdutos() {
-		ArrayList<Produto> lista = new ArrayList<>();
-		try {
-			Class.forName("com.mysql.cj.jdbc.Driver");
-			Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/MercadoBD", "mercado",
-					"1234");
+            stmt.setString(1, p.getNome_produto());
+            stmt.setString(2, p.getCategoria());
+            stmt.setString(3, precoStr);
+            stmt.setString(4, p.getDescricao());
+            stmt.setInt(5, p.getQ_estoque());
 
-			String sql = "SELECT * FROM Produtos";
-			var stmt = conn.prepareStatement(sql);
-
-			var rs = stmt.executeQuery();
-
-			while (rs.next()) {
-				String nome = getStringSafe(rs, "nome_produto", "nomeproduto", "nome");
-				String categoria = getStringSafe(rs, "categoria", "cat");
-				double preco = 0d;
-				try {
-					preco = rs.getDouble("preco");
-				} catch (Exception ex) {
-					try { preco = rs.getDouble(3); } catch (Exception e) { /* ignore */ }
-				}
-				String descricao = getStringSafe(rs, "descrição", "descricao", "descricao_produto", "descricao_prod");
-				int q_estoque = 0;
-				try {
-					q_estoque = rs.getInt("q_estoque");
-				} catch (Exception ex) {
-					try { q_estoque = rs.getInt(5); } catch (Exception e) { /* ignore */ }
-				}
-
-				Produto p = new Produto(nome, categoria, preco, descricao, q_estoque);
-				// Ajuste do id conforme a coluna no banco
-				try {
-					p.setId(rs.getInt("ID_produto"));
-				} catch (Exception ex) {
-					try { p.setId(rs.getInt("id")); } catch (Exception e) { /* ignore */ }
-				}
-				lista.add(p);
-			}
-
-			rs.close();
-			stmt.close();
-			conn.close();
-			return lista;
-		} catch (Exception ex) {
-			ex.printStackTrace();
-		}
-		return lista; // retorna lista (possivelmente vazia) em caso de erro
-	}
-	
-	public ArrayList<Produto> buscarTodosServicosPorid(Produto p) {
-		try {
-			Class.forName("com.mysql.cj.jdbc.Driver");
-			Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/MercadoBD", "mercado",
-					"1234");
-
-			String sql = "SELECT * FROM Servico WHERE id_contratante = ?";
-			var stmt = conn.prepareStatement(sql);
-
-			stmt.setInt(1, p.getId());
-
-			var rs = stmt.executeQuery();
-
-			ArrayList<Produto> listaServicos = new ArrayList<Produto>();
-			while (rs.next()) {
-				p = new Produto(getStringSafe(rs, "nome_servico", "nome_produto", "nome"), getStringSafe(rs, "categoria", "cat"),
-						rs.getDouble("preco"), getStringSafe(rs, "descrição", "descricao"), rs.getInt("q_estoque"));
-				try { p.setId(rs.getInt("ID_produto")); } catch (Exception e) { /* ignore */ }
-				listaServicos.add(p);
-
-			}
-
-			rs.close();
-			stmt.close();
-			conn.close();
-			return listaServicos;
-		} catch (Exception ex) {
-			ex.printStackTrace();
-		}
-		return null;
-	}
-
-	/**
-	 * Tenta obter o valor de uma coluna usando uma lista de nomes possíveis.
-	 * Retorna string vazia caso nenhum nome exista ou ocorra erro.
-	 */
-	private String getStringSafe(java.sql.ResultSet rs, String... names) {
-		for (String name : names) {
-			if (name == null) continue;
-			try {
-				String v = rs.getString(name);
-				if (v != null) return v;
-			} catch (Exception ex) {
-				// tenta próximo nome
-			}
-		}
-		// tentativa por índice (como último recurso)
-		try {
-			String v = rs.getString(1);
-			if (v != null) return v;
-		} catch (Exception e) { /* ignore */ }
-		return "";
-	}
+            stmt.executeUpdate();
+            stmt.close();
+            
+            JOptionPane.showMessageDialog(null, "Produto cadastrado com sucesso!", "Sucesso!", JOptionPane.INFORMATION_MESSAGE);
+        } catch (Exception e) {
+            System.err.println("[ERROR] Erro ao cadastrar produto: " + e.getMessage());
+            JOptionPane.showMessageDialog(null, "Erro ao salvar: " + e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+        } finally {
+            if (conn != null) {
+                try {
+                    conn.close();
+                } catch (Exception e) {
+                    System.err.println("[ERROR] Erro ao fechar conexão: " + e.getMessage());
+                }
+            }
+        }
+    }
 }

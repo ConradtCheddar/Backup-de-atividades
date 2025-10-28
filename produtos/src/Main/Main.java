@@ -5,6 +5,7 @@ import Controller.CadastroUsuariosController;
 import Controller.CompraController;
 import Controller.LoginController;
 import Controller.Navegador;
+import Controller.ProdutosController;
 import Model.ProdutoDAO;
 import Model.UsuarioDAO;
 import View.Janela;
@@ -12,6 +13,7 @@ import View.TelaDeCadastroProdutos;
 import View.TelaDeCadastroUsuarios;
 import View.TelaDeCompra;
 import View.TelaDeLogin;
+import View.TelaDeProdutos;
 
 public class Main {
 
@@ -20,8 +22,8 @@ public class Main {
 		
 		Janela janela = new Janela();
 		Navegador navegador =new Navegador(janela);
-		UsuarioDAO usuarioDAO = new UsuarioDAO(navegador);
-		ProdutoDAO produtoDAO = new ProdutoDAO(navegador);
+		UsuarioDAO usuarioDAO = new UsuarioDAO();
+		ProdutoDAO produtoDAO = new ProdutoDAO();
 		
 		TelaDeLogin telaDeLogin = new TelaDeLogin();
 		LoginController loginController = new LoginController(telaDeLogin, usuarioDAO, navegador);
@@ -35,12 +37,16 @@ public class Main {
 		TelaDeCompra telaDeCompra = new TelaDeCompra();
 		CompraController compraController = new CompraController(telaDeCompra, produtoDAO, navegador);
 		
+		TelaDeProdutos telaDeProdutos = new TelaDeProdutos();
+		ProdutosController produtosController = new ProdutosController(telaDeProdutos, produtoDAO, navegador);
+		
 		
 		
 		navegador.adicionarPainel("LOGIN", telaDeLogin);
 		navegador.adicionarPainel("CADPRO", telaDeCadastroProdutos);
 		navegador.adicionarPainel("CADUSU", telaDeCadastroUsuarios);
 		navegador.adicionarPainel("compra", telaDeCompra);
+		navegador.adicionarPainel("Produtos", telaDeProdutos);
 		
 		// Popula a tabela de compra no início (se houver produtos no banco)
 		try {

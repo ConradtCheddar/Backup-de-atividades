@@ -103,8 +103,41 @@ public class TelaDeCadastroProdutos extends JPanel {
 	public String getPreco() {
 		return this.txtPreco.getText();
 	}
+	
 	/**
-	 * metodo responsavel por adicionar opções para a combobox "categoria"
+	 * metodo responsavel por salvar o dado do campo "categoria"
+	 */
+	public String getCategoria() {
+		return this.cbCategoria.getSelectedItem().toString();
+	}
+	
+	/**
+	 * metodo responsavel por salvar o dado do campo "descrição"
+	 */
+	public String getDescricao() {
+		return this.txtDescricao.getText();
+	}
+	
+	/**
+	 * metodo responsavel por salvar o dado do campo "estoque"
+	 */
+	public String getEstoque() {
+		return this.txtEstoque.getText();
+	}
+	
+	/**
+	 * Limpa todos os campos do formulário
+	 */
+	public void clearFields() {
+		this.txtNome.setText("");
+		this.txtPreco.setText("");
+		this.txtDescricao.setText("");
+		this.txtEstoque.setText("");
+		this.cbCategoria.setSelectedIndex(0);
+	}
+	
+	/**
+	 * Adiciona as categorias no ComboBox
 	 */
 	public void setItems() {
 		this.cbCategoria.addItem("Hortifrúti");
@@ -116,39 +149,12 @@ public class TelaDeCadastroProdutos extends JPanel {
 		this.cbCategoria.addItem("Higiene e Beleza");
 		this.cbCategoria.addItem("Produtos de Limpeza");
 	}
-	/**
-	 * metodo responsavel por salvar o dado do campo "categoria"
-	 */
-	public String getCategoria() {
-		return (String) this.cbCategoria.getSelectedItem();
-	}
-	/**
-	 * metodo responsavel por salvar o dado do campo "descricao"
-	 */
-	public String getDescricao() {
-		return this.txtDescricao.getText();
-	}
-	/**
-	 * metodo responsavel por salvar o dado do campo "quantidade estoque"
-	 */
-	public String getEstoque() {
-		return this.txtEstoque.getText();
-	}
-	
 	
 	/**
-	 * Metodo responsavel pelo funcionamento do botão "Confirmar"
+	 * funcionalidade do botao cadastrar
 	 */
-	public void cadastrarProdutos(ActionListener actionListener) {
-		this.btnCadastrar.addActionListener(actionListener);
-	}
-	
-	/**
-	 * Metodo responsavel pelo funcionamento do combobox "categoria"
-	 * @return 
-	 */
-	public String categoria() {
-		return cbCategoria.getSelectedItem().toString();
+	public void cadastrarProdutos(ActionListener action) {
+		this.btnCadastrar.addActionListener(action);
 	}
 	
 	/**

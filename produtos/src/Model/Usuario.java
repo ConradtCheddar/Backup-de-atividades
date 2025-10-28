@@ -2,6 +2,7 @@ package Model;
 
 public class Usuario {
 	
+	private int id;
 	private String usuario;
 	private String cpf;
 	private boolean admin;
@@ -11,6 +12,14 @@ public class Usuario {
 		this.usuario = usuario;
 		this.cpf = cpf;
 		this.admin = admin;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	public String getUsuario() {

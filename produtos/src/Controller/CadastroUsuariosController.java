@@ -18,7 +18,7 @@ public class CadastroUsuariosController {
 			String nome = view.getUsuario();
 			String cpf = view.getCPF();
 			
-			UsuarioDAO dao = new UsuarioDAO(navegador);
+			UsuarioDAO dao = new UsuarioDAO();
 			Usuario u = new Usuario(nome ,cpf ,this.view.getcheckAdmin().isSelected());
 				try {
 					dao.cadastrarU(u);
@@ -26,8 +26,6 @@ public class CadastroUsuariosController {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
-
-
 			navegador.navegarPara("LOGIN");
 		});
 		

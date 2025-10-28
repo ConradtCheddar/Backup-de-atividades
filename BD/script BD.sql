@@ -17,11 +17,11 @@ admin boolean
 );
 create table if not exists Produtos
 (
-ID_produto int primary key,
+ID_produto int primary key auto_increment,
 nome_produto varchar(20) not null,
 categoria varchar(20) not null,
 preco varchar(10) not null,
-descrição longtext not null,
+descricao longtext not null,
 q_estoque int not null
 );
 
