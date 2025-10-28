@@ -31,3 +31,4 @@ where not exists(
 select 1 from Usuarios where ID_usuario = 1);
 
 select * from Usuarios;
+select * from Produtos;
