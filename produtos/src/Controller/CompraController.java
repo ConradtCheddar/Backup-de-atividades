@@ -100,10 +100,19 @@ public class CompraController {
                     // Atualizar estoque
                     produto.setQ_estoque(produto.getQ_estoque() - qtd);
                     if (model.atualizarProduto(id, produto)) {
-                        JOptionPane.showMessageDialog(view, 
-                            String.format("Compra realizada com sucesso!\nValor total: R$ %.2f", valorTotal),
-                            "Sucesso",
-                            JOptionPane.INFORMATION_MESSAGE);
+                    	 Produto p = this.model.buscarProdutoPorId(id);
+                    	 String info = String.format(
+                                 "Detalhes do Produto:\n\n" +
+                                 "Nome: %s\n" +
+                                 "Categoria: %s\n" +
+                                 "Preço: R$ %.2f\n" +
+                                 "Descrição: %s\n" +
+                                 "Quantidade Comprada: %d\n"+
+                                 "Valor total: R$ %.2f\n",
+                                 p.getNome_produto(), p.getCategoria(),
+                                 p.getPreco(), p.getDescricao(), qtd, valorTotal
+                             );
+                        JOptionPane.showMessageDialog(view, info, "Nota fiscal da compra",JOptionPane.INFORMATION_MESSAGE);
                             
                         // Recarregar a tabela imediatamente após a compra
                         carregarProdutos();

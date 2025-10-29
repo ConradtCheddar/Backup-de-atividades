@@ -36,7 +36,13 @@ public class LoginController {
 					JOptionPane.showMessageDialog(view, "Tipo de usuário incorreto selecionado", "Erro de Login", JOptionPane.ERROR_MESSAGE);
 				}
             } else {
-                JOptionPane.showMessageDialog(view, "Usuário ou CPF incorretos", "Erro de Login", JOptionPane.ERROR_MESSAGE);
+                // Se o login falhou, checar se o CPF existe associado a outro usuário para dar uma mensagem mais clara
+                String nomeCadastrado = this.model.buscarNomePorCPF(cpf);
+                if (nomeCadastrado != null && !nomeCadastrado.isEmpty() && !nomeCadastrado.equals(nome)) {
+                    JOptionPane.showMessageDialog(view, "CPF já cadastrado para outro usuário: " + nomeCadastrado, "Erro de Login", JOptionPane.ERROR_MESSAGE);
+                } else {
+                    JOptionPane.showMessageDialog(view, "Usuário ou CPF incorretos", "Erro de Login", JOptionPane.ERROR_MESSAGE);
+                }
             }
             
             this.view.limparCampos();

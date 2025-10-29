@@ -3,6 +3,7 @@ package Controller;
 import Model.Usuario;
 import Model.UsuarioDAO;
 import View.TelaDeCadastroUsuarios;
+import javax.swing.JOptionPane;
 
 public class CadastroUsuariosController {
 	private final TelaDeCadastroUsuarios view;
@@ -18,16 +19,33 @@ public class CadastroUsuariosController {
 			String nome = view.getUsuario();
 			String cpf = view.getCPF();
 			
-			UsuarioDAO dao = new UsuarioDAO();
+			// Validações básicas antes de tentar cadastrar
+			if (nome == null || nome.isEmpty() || cpf == null || cpf.isEmpty()) {
+				JOptionPane.showMessageDialog(view, "Preencha todos os campos", "Erro", JOptionPane.ERROR_MESSAGE);
+				return;
+			}
+			String cpfNorm = cpf.replaceAll("\\D+", "");
+			if (cpfNorm.length() != 11) {
+				JOptionPane.showMessageDialog(view, "CPF inválido. Insira 11 dígitos.", "Erro", JOptionPane.ERROR_MESSAGE);
+				return;
+			}
+			
+			// Checar se CPF já existe
+			String existente = this.model.buscarNomePorCPF(cpf);
+			if (existente != null && !existente.isEmpty()) {
+				JOptionPane.showMessageDialog(view, "CPF já cadastrado para o usuário: " + existente, "Erro", JOptionPane.ERROR_MESSAGE);
+				return;
+			}
+			
 			Usuario u = new Usuario(nome ,cpf ,this.view.getcheckAdmin().isSelected());
-				try {
-					dao.cadastrarU(u);
-				} catch (ClassNotFoundException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
+			try {
+				this.model.cadastrarU(u);
 				this.view.limparCampos();
-			navegador.navegarPara("LOGIN");
+				navegador.navegarPara("LOGIN");
+			} catch (ClassNotFoundException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 		});
 		
 		this.view.voltar(e ->{

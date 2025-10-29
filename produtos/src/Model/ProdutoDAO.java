@@ -34,7 +34,7 @@ public class ProdutoDAO {
                         rs.getInt("ID_produto"),
                         rs.getString("nome_produto"),
                         rs.getString("categoria"),
-                        preco,
+                        rs.getDouble("preco"),
                         rs.getString("descricao"),
                         rs.getInt("q_estoque")
                     );
@@ -113,7 +113,7 @@ public class ProdutoDAO {
                     rs.getInt("ID_produto"),
                     rs.getString("nome_produto"),
                     rs.getString("categoria"),
-                    preco,
+                    rs.getDouble("preco"),
                     rs.getString("descricao"),
                     rs.getInt("q_estoque")
                 );
@@ -161,7 +161,7 @@ public class ProdutoDAO {
             
             stmt.setString(1, p.getNome_produto());
             stmt.setString(2, p.getCategoria());
-            stmt.setString(3, precoStr);
+            stmt.setDouble(3, p.getPreco());
             stmt.setString(4, p.getDescricao());
             stmt.setInt(5, p.getQ_estoque());
             stmt.setInt(6, idProduto);
@@ -215,7 +215,7 @@ public class ProdutoDAO {
 
             stmt.setString(1, p.getNome_produto());
             stmt.setString(2, p.getCategoria());
-            stmt.setString(3, precoStr);
+            stmt.setDouble(3, p.getPreco());
             stmt.setString(4, p.getDescricao());
             stmt.setInt(5, p.getQ_estoque());
 

@@ -38,7 +38,7 @@ public class TelaDeCadastroProdutos extends JPanel {
 		add(lblTitulo);
 		
 		JLabel lblNomeProduto = new JLabel("Nome do produto");
-		lblNomeProduto.setBounds(21, 45, 86, 14);
+		lblNomeProduto.setBounds(21, 45, 196, 14);
 		add(lblNomeProduto);
 		
 		txtNome = new JTextField();
@@ -60,7 +60,7 @@ public class TelaDeCadastroProdutos extends JPanel {
 		add(cbCategoria);
 		
 		JLabel lblDescricao = new JLabel("Descrição");
-		lblDescricao.setBounds(21, 157, 86, 14);
+		lblDescricao.setBounds(21, 157, 196, 14);
 		add(lblDescricao);
 		
 		btnCadastrar = new JButton("Cadastrar");
@@ -69,7 +69,7 @@ public class TelaDeCadastroProdutos extends JPanel {
 		add(btnCadastrar);
 		
 		JLabel lblCategoria = new JLabel("Categoria");
-		lblCategoria.setBounds(256, 45, 86, 14);
+		lblCategoria.setBounds(256, 45, 213, 14);
 		add(lblCategoria);
 		
 		txtEstoque = new JTextField();
