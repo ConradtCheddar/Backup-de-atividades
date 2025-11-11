@@ -2,7 +2,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>index</title>
 </head>
 <body>
     minha pagina html
@@ -52,6 +52,11 @@
     echo 'sobrenome: '.$vetor['sobrenome'].'<br />';
     echo 'cpf: '.$vetor['cpf'].'<br />';
     ?>
+    <h2>variaveis de ambiente</h2>
+    <?php
+    echo "$_GET".$_GET 
+    ?>
+
     
 
 
