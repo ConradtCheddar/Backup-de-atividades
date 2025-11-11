@@ -32,12 +32,28 @@
         echo "i=".$i." - ";
     }
     ?>
+    <h2>array em php</h2>
     <?php
     $vetor = array(20,19,22,19,23);
     for ($posicao=0; $posicao < 5; $posicao++) { 
         echo $vetor[$posicao] . '<br />'
     }
+    foreach($vetor as $elemento){
+        echo "elemento :".$elemento;
+    }
     ?>
+    <?php
+    $vetor = array(
+        'nome' => 'guilherme',
+        'sobrenome' => 'da silva',
+        'cpf' => '123.456.789.09'
+    );
+    echo 'nome: '.$vetor['nome'].'<br />';
+    echo 'sobrenome: '.$vetor['sobrenome'].'<br />';
+    echo 'cpf: '.$vetor['cpf'].'<br />';
+    ?>
+    
+
 
     
 </body>
