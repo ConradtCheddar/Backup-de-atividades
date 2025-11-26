@@ -20,7 +20,7 @@ import java.awt.event.ActionEvent;
 public class TelaDeCompra extends JPanel {
 
 	private static final long serialVersionUID = 1L;
-	private JButton btnComprar, btnVoltar, btnVisualizar;
+	private JButton btnComprar, btnVoltar, btnVisualizar,btnCarrinho;
 	private JTable table;
 	private DefaultTableModel model;
 
@@ -38,7 +38,7 @@ public class TelaDeCompra extends JPanel {
 		add(lblTitulo);
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(29, 45, 333, 291);
+		scrollPane.setBounds(10, 47, 333, 291);
 		add(scrollPane);
 		
 		// Adiciona coluna de ID para corresponder aos dados adicionados no atualizarTable
@@ -59,7 +59,7 @@ public class TelaDeCompra extends JPanel {
 		scrollPane.setViewportView(this.table);
 		
 		btnComprar = new JButton("Comprar");
-		btnComprar.setBounds(386, 75, 100, 23);
+		btnComprar.setBounds(375, 69, 100, 23);
 		add(btnComprar);
 		
 		btnVoltar = new JButton("Voltar");
@@ -67,8 +67,12 @@ public class TelaDeCompra extends JPanel {
 		add(btnVoltar);
 		
 		btnVisualizar = new JButton("Visualizar");
-		btnVisualizar.setBounds(386, 123, 100, 23);
+		btnVisualizar.setBounds(375, 126, 100, 23);
 		add(btnVisualizar);
+		
+		btnCarrinho = new JButton("Carrinho");
+		btnCarrinho.setBounds(375, 184, 100, 23);
+		add(btnCarrinho);
 
 	}
 	
@@ -98,10 +102,17 @@ public class TelaDeCompra extends JPanel {
 	}
 	
 	/**
-	 * funcionalidade do botao voltar
+	 * funcionalidade do botao visualizar
 	 */
 	public void visualizar(ActionListener action) {
 		this.btnVisualizar.addActionListener(action);
+	}
+	
+	/**
+	 * funcionalidade do botao adicionarCarrinho
+	 */
+	public void carrinho(ActionListener action) {
+		this.btnCarrinho.addActionListener(action);
 	}
 	
 	
@@ -181,7 +192,4 @@ public class TelaDeCompra extends JPanel {
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
-	
-	
-	
 }

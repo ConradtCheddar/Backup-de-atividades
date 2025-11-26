@@ -40,6 +40,9 @@ public class Main {
 		TelaDeProdutos telaDeProdutos = new TelaDeProdutos();
 		ProdutosController produtosController = new ProdutosController(telaDeProdutos, produtoDAO, navegador);
 		
+		// Nova tela e controller do carrinho
+		View.TelaDeCarrinho telaDeCarrinho = new View.TelaDeCarrinho();
+		Controller.CarrinhoController carrinhoController = new Controller.CarrinhoController(telaDeCarrinho, produtoDAO, navegador);
 		
 		
 		navegador.adicionarPainel("LOGIN", telaDeLogin);
@@ -47,6 +50,7 @@ public class Main {
 		navegador.adicionarPainel("CADUSU", telaDeCadastroUsuarios);
 		navegador.adicionarPainel("compra", telaDeCompra);
 		navegador.adicionarPainel("Produtos", telaDeProdutos);
+		navegador.adicionarPainel("CARRINHO", telaDeCarrinho);
 		
 		// Popula a tabela de compra no início (se houver produtos no banco)
 		try {

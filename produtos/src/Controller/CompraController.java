@@ -20,6 +20,67 @@ public class CompraController {
         // Carregar produtos iniciais
         carregarProdutos();
         
+        this.view.carrinho(e ->{
+        	String[] opcoes = {"Adicionar", "Ir"};
+        	int resposta = JOptionPane.showOptionDialog(null,"deseja ir para o carrinho ou adicionar items a ele?",
+					"Escolha",JOptionPane.DEFAULT_OPTION,JOptionPane.QUESTION_MESSAGE, null, opcoes, opcoes[0]);
+        	
+        	if(resposta == 0) {
+				 Integer id = view.getSelectedId();
+                if (id == null) {
+                    JOptionPane.showMessageDialog(view, "Selecione um produto para adicionar ao carrinho", "Aviso", JOptionPane.WARNING_MESSAGE);
+                    return;
+                }
+                
+                Integer quantidadeDisponivel = view.getSelectedQuantity();
+                if (quantidadeDisponivel == null || quantidadeDisponivel <= 0) {
+                    JOptionPane.showMessageDialog(view, "Produto fora de estoque!", "Erro", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+                
+                String quantidade = JOptionPane.showInputDialog(view, 
+                    "Quantidade desejada (disponível: " + quantidadeDisponivel + "):", 
+                    "Quantidade", 
+                    JOptionPane.QUESTION_MESSAGE);
+                
+                if (quantidade == null) {
+                    return; // Usuário cancelou
+                }
+                
+                try {
+                    int qtd = Integer.parseInt(quantidade);
+                    if (qtd <= 0) {
+                        JOptionPane.showMessageDialog(view, "Quantidade inválida!", "Erro", JOptionPane.ERROR_MESSAGE);
+                        return;
+                    }
+                    if (qtd > quantidadeDisponivel) {
+                        JOptionPane.showMessageDialog(view, "Quantidade indisponível em estoque!", "Erro", JOptionPane.ERROR_MESSAGE);
+                        return;
+                    }
+                    
+                    // Buscar produto atual
+                    Produto produto = model.buscarProdutoPorId(id);
+                    if (produto == null) {
+                        JOptionPane.showMessageDialog(view, "Erro ao buscar produto!", "Erro", JOptionPane.ERROR_MESSAGE);
+                        return;
+                    }
+                    
+                    // Adicionar ao carrinho (não altera estoque no DB até compra final)
+                    model.colocarCarrinho(produto, qtd);
+                    JOptionPane.showMessageDialog(view, "Produto adicionado ao carrinho!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+                    
+                } catch (NumberFormatException ex) {
+                    JOptionPane.showMessageDialog(view, "Quantidade inválida!", "Erro", JOptionPane.ERROR_MESSAGE);
+                }
+        	
+        		
+        	}else if(resposta == 1) {
+				// Ir para o carrinho
+				navegador.navegarPara("CARRINHO");
+			
+			}
+        });
+        
         this.view.visualizar(e -> {
             Integer id = this.view.getSelectedId();
             if (id != null) {
@@ -100,20 +161,20 @@ public class CompraController {
                     // Atualizar estoque
                     produto.setQ_estoque(produto.getQ_estoque() - qtd);
                     if (model.atualizarProduto(id, produto)) {
-                    	 Produto p = this.model.buscarProdutoPorId(id);
-                    	 String info = String.format(
-                                 "Detalhes do Produto:\n\n" +
-                                 "Nome: %s\n" +
-                                 "Categoria: %s\n" +
-                                 "Preço: R$ %.2f\n" +
-                                 "Descrição: %s\n" +
-                                 "Quantidade Comprada: %d\n"+
-                                 "Valor total: R$ %.2f\n",
-                                 p.getNome_produto(), p.getCategoria(),
-                                 p.getPreco(), p.getDescricao(), qtd, valorTotal
-                             );
+                        Produto p = this.model.buscarProdutoPorId(id);
+                        String info = String.format(
+                            "Detalhes do Produto:\n\n" +
+                            "Nome: %s\n" +
+                            "Categoria: %s\n" +
+                            "Preço: R$ %.2f\n" +
+                            "Descrição: %s\n" +
+                            "Quantidade Comprada: %d\n"+
+                            "Valor total: R$ %.2f\n",
+                            p.getNome_produto(), p.getCategoria(),
+                            p.getPreco(), p.getDescricao(), qtd, valorTotal
+                        );
                         JOptionPane.showMessageDialog(view, info, "Nota fiscal da compra",JOptionPane.INFORMATION_MESSAGE);
-                            
+                        
                         // Recarregar a tabela imediatamente após a compra
                         carregarProdutos();
                     } else {

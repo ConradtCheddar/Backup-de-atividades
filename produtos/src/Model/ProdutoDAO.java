@@ -8,6 +8,24 @@ import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
 public class ProdutoDAO {
+	
+	// Carrinho em memória
+	private ArrayList<Produto> carrinho = new ArrayList<>();
+	
+	public void colocarCarrinho(Produto p, int quantidade){
+		// Armazena uma cópia do produto com a quantidade desejada em q_estoque
+		Produto item = new Produto(p.getId(), p.getNome_produto(), p.getCategoria(), p.getPreco(), p.getDescricao(), quantidade);
+		this.carrinho.add(item);
+	}
+
+	public ArrayList<Produto> getCarrinho() {
+		return this.carrinho;
+	}
+
+	public void limparCarrinho() {
+		this.carrinho.clear();
+	}
+	
     
     public ArrayList<Produto> buscarTodosProdutos() {
         ArrayList<Produto> listaProdutos = new ArrayList<>();
@@ -26,7 +44,6 @@ public class ProdutoDAO {
 
             while (rs.next()) {
                 try {
-                    // Converte o preço de VARCHAR para Double
                     String precoStr = rs.getString("preco").replace(",", ".");
                     Double preco = Double.parseDouble(precoStr);
                     
