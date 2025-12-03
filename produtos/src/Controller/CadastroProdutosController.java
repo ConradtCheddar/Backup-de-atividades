@@ -26,27 +26,27 @@ public class CadastroProdutosController {
                 String descricao = view.getDescricao();
                 String estoqueStr = view.getEstoque();
                 
-                if (nome_produtos.isEmpty() || categoria.isEmpty() || precoStr.isEmpty() || 
-                    descricao.isEmpty() || estoqueStr.isEmpty()) {
-                    JOptionPane.showMessageDialog(view, "Preencha todos os campos", "Erro", JOptionPane.ERROR_MESSAGE);
-                    return;
-                }
-                
                 Double preco = Double.parseDouble(precoStr);
                 int estoque = Integer.parseInt(estoqueStr);
                 
-                Produto p = new Produto(nome_produtos, categoria, preco, descricao, estoque);
-                model.cadastrarProdutos(p);
-                
-                view.clearFields();
-                
-                navegador.navegarPara("Produtos");
-                
+                if (nome_produtos.isEmpty() || categoria.isEmpty() || precoStr.isEmpty() || 
+                    descricao.isEmpty() || estoqueStr.isEmpty()) {
+                    JOptionPane.showMessageDialog(view, "Preencha todos os campos", "Erro", JOptionPane.ERROR_MESSAGE);
+                }else if(preco < 0 || estoque < 0) {
+                	JOptionPane.showMessageDialog(this.view, "valor negativo no estoque ou preço", "Erro", JOptionPane.ERROR_MESSAGE);
+                }else {
+                	Produto p = new Produto(nome_produtos, categoria, preco, descricao, estoque);
+                    model.cadastrarProdutos(p);
+                    
+                    view.clearFields();
+                    
+                    navegador.navegarPara("Produtos");
+                }
             } catch (NumberFormatException ex) {
                 JOptionPane.showMessageDialog(view, "Formato inválido para preço ou estoque", "Erro", JOptionPane.ERROR_MESSAGE);
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(view, "Erro ao cadastrar produto: " + ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
-            }
+            }        
         });
         
         this.view.voltar(e -> {

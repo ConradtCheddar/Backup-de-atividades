@@ -13,7 +13,7 @@ public class ProdutosController {
     private final Navegador navegador;
     private final TelaDeProdutos view;
     
-    public ProdutosController(TelaDeProdutos view, ProdutoDAO model, Navegador navegador) {
+    public ProdutosController(TelaDeProdutos view, ProdutoDAO model, Navegador navegador) throws IllegalArgumentException {
         this.view = view;
         this.model = model;
         this.navegador = navegador;
@@ -67,10 +67,14 @@ public class ProdutosController {
                 String descricao = (String)table.getValueAt(row, 4);
                 Integer estoque = Integer.valueOf(table.getValueAt(row, 5).toString());
                 
+                
+                
                 Produto p = new Produto(nome, categoria, preco, descricao, estoque);
                 p.setId(id);
                 
-                if (model.atualizarProduto(id, p)) {
+                if(preco < 0 || estoque < 0) {
+                	JOptionPane.showMessageDialog(this.view, "valor negativo no estoque ou preço", "Erro", JOptionPane.ERROR_MESSAGE);
+                }else if (model.atualizarProduto(id, p)) {
                     JOptionPane.showMessageDialog(this.view, "Produto atualizado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
                     carregarProdutos();
                 } else {
