@@ -57,7 +57,6 @@ public class Produto {
 		if (preco == null || preco < 0) {
             throw new IllegalArgumentException("Preço não pode ser nulo ou negativo");
         }
-        // Ensure price string representation won't exceed VARCHAR(10)
         String precoStr = String.format("%.2f", preco);
         if (precoStr.length() > 10) {
             throw new IllegalArgumentException("Preço excede o tamanho máximo permitido");

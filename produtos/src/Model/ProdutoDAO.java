@@ -9,11 +9,9 @@ import javax.swing.JOptionPane;
 
 public class ProdutoDAO {
 	
-	// Carrinho em memória
 	private ArrayList<Produto> carrinho = new ArrayList<>();
 	
 	public void colocarCarrinho(Produto p, int quantidade){
-		// Armazena uma cópia do produto com a quantidade desejada em q_estoque
 		Produto item = new Produto(p.getId(), p.getNome_produto(), p.getCategoria(), p.getPreco(), p.getDescricao(), quantidade);
 		this.carrinho.add(item);
 	}
@@ -153,7 +151,6 @@ public class ProdutoDAO {
     }
 
     public boolean atualizarProduto(int idProduto, Produto p) {
-        // Validações de acordo com o schema do banco
         if (p.getNome_produto().length() > 20 || p.getCategoria().length() > 20) {
             JOptionPane.showMessageDialog(null, "Nome do produto e categoria devem ter no máximo 20 caracteres", "Erro", JOptionPane.ERROR_MESSAGE);
             return false;
@@ -201,7 +198,6 @@ public class ProdutoDAO {
     }
 
     public void cadastrarProdutos(Produto p) throws ClassNotFoundException {
-        // Validações de acordo com o schema do banco
         if (p.getNome_produto().length() > 20 || p.getCategoria().length() > 20) {
             JOptionPane.showMessageDialog(null, "Nome do produto e categoria devem ter no máximo 20 caracteres", "Erro", JOptionPane.ERROR_MESSAGE);
             return;

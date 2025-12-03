@@ -20,6 +20,7 @@ public class Janela extends JFrame {
 	public Janela() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(0, 0, 400, 300);
+		setResizable(false);
 
 		this.cardLayout = new CardLayout();
 

@@ -18,10 +18,8 @@ public class ProdutosController {
         this.model = model;
         this.navegador = navegador;
         
-        // Carregar produtos iniciais
         this.carregarProdutos();
         
-        // Configurar ações dos botões
         this.view.visualizar(e -> {
             Integer id = this.view.getSelectedId();
             if (id != null) {
@@ -74,7 +72,7 @@ public class ProdutosController {
                 
                 if (model.atualizarProduto(id, p)) {
                     JOptionPane.showMessageDialog(this.view, "Produto atualizado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
-                    carregarProdutos(); // Recarrega a tabela após atualização
+                    carregarProdutos();
                 } else {
                     JOptionPane.showMessageDialog(this.view, "Erro ao atualizar produto", "Erro", JOptionPane.ERROR_MESSAGE);
                 }
@@ -95,7 +93,7 @@ public class ProdutosController {
                 if (confirm == JOptionPane.YES_OPTION) {
                     if (model.deletarProduto(id)) {
                         JOptionPane.showMessageDialog(this.view, "Produto deletado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
-                        carregarProdutos(); // Recarrega a tabela após deleção
+                        carregarProdutos(); 
                     } else {
                         JOptionPane.showMessageDialog(this.view, "Erro ao deletar produto", "Erro", JOptionPane.ERROR_MESSAGE);
                     }
@@ -109,7 +107,6 @@ public class ProdutosController {
             navegador.navegarPara("LOGIN");
         });
         
-        // Registrar para receber notificações quando a tela for exibida
         navegador.addShowListener("Produtos", () -> carregarProdutos());
     }
     

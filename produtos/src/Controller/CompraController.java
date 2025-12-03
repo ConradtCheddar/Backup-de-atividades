@@ -17,7 +17,6 @@ public class CompraController {
         this.model = model;
         this.navegador = navegador;
         
-        // Carregar produtos iniciais
         carregarProdutos();
         
         this.view.carrinho(e ->{
@@ -44,7 +43,7 @@ public class CompraController {
                     JOptionPane.QUESTION_MESSAGE);
                 
                 if (quantidade == null) {
-                    return; // Usuário cancelou
+                    return;
                 }
                 
                 try {
@@ -58,14 +57,12 @@ public class CompraController {
                         return;
                     }
                     
-                    // Buscar produto atual
                     Produto produto = model.buscarProdutoPorId(id);
                     if (produto == null) {
                         JOptionPane.showMessageDialog(view, "Erro ao buscar produto!", "Erro", JOptionPane.ERROR_MESSAGE);
                         return;
                     }
                     
-                    // Adicionar ao carrinho (não altera estoque no DB até compra final)
                     model.colocarCarrinho(produto, qtd);
                     JOptionPane.showMessageDialog(view, "Produto adicionado ao carrinho!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
                     
@@ -75,7 +72,6 @@ public class CompraController {
         	
         		
         	}else if(resposta == 1) {
-				// Ir para o carrinho
 				navegador.navegarPara("CARRINHO");
 			
 			}
@@ -104,7 +100,6 @@ public class CompraController {
             }
         });
         
-        // Configurar ação do botão comprar
         this.view.comprar(e -> {
             Integer id = view.getSelectedId();
             if (id == null) {
@@ -124,7 +119,7 @@ public class CompraController {
                 JOptionPane.QUESTION_MESSAGE);
             
             if (quantidade == null) {
-                return; // Usuário cancelou
+                return;
             }
             
             try {
@@ -138,17 +133,14 @@ public class CompraController {
                     return;
                 }
                 
-                // Buscar produto atual
                 Produto produto = model.buscarProdutoPorId(id);
                 if (produto == null) {
                     JOptionPane.showMessageDialog(view, "Erro ao buscar produto!", "Erro", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
                 
-                // Calcular valor total
                 double valorTotal = produto.getPreco() * qtd;
                 
-                // Confirmar compra
                 int confirm = JOptionPane.showConfirmDialog(
                     view,
                     String.format("Confirmar compra de %d unidades de %s?\nValor total: R$ %.2f", 
@@ -158,7 +150,6 @@ public class CompraController {
                 );
                 
                 if (confirm == JOptionPane.YES_OPTION) {
-                    // Atualizar estoque
                     produto.setQ_estoque(produto.getQ_estoque() - qtd);
                     if (model.atualizarProduto(id, produto)) {
                         Produto p = this.model.buscarProdutoPorId(id);
@@ -175,7 +166,6 @@ public class CompraController {
                         );
                         JOptionPane.showMessageDialog(view, info, "Nota fiscal da compra",JOptionPane.INFORMATION_MESSAGE);
                         
-                        // Recarregar a tabela imediatamente após a compra
                         carregarProdutos();
                     } else {
                         JOptionPane.showMessageDialog(view, "Erro ao processar compra!", "Erro", JOptionPane.ERROR_MESSAGE);
@@ -188,12 +178,10 @@ public class CompraController {
             }
         });
         
-        // Configurar ação do botão voltar
         this.view.voltar(e -> {
             navegador.navegarPara("LOGIN");
         });
         
-        // Registrar para receber notificações quando a tela for exibida
         navegador.addShowListener("compra", () -> carregarProdutos());
     }
     

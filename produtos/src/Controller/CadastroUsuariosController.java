@@ -19,7 +19,6 @@ public class CadastroUsuariosController {
 			String nome = view.getUsuario();
 			String cpf = view.getCPF();
 			
-			// Validações básicas antes de tentar cadastrar
 			if (nome == null || nome.isEmpty() || cpf == null || cpf.isEmpty()) {
 				JOptionPane.showMessageDialog(view, "Preencha todos os campos", "Erro", JOptionPane.ERROR_MESSAGE);
 				return;
@@ -30,7 +29,6 @@ public class CadastroUsuariosController {
 				return;
 			}
 			
-			// Checar se CPF já existe
 			String existente = this.model.buscarNomePorCPF(cpf);
 			if (existente != null && !existente.isEmpty()) {
 				JOptionPane.showMessageDialog(view, "CPF já cadastrado para o usuário: " + existente, "Erro", JOptionPane.ERROR_MESSAGE);

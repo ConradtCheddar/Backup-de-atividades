@@ -34,10 +34,9 @@ public class TelaDeProdutos extends JPanel {
 		add(lblTitulo);
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(29, 45, 333, 291);
+		scrollPane.setBounds(10, 45, 370, 344);
 		add(scrollPane);
 		
-		// Adiciona coluna de ID para corresponder aos dados adicionados no atualizarTable
 		String colunas[]= {
 			"ID", "Nome", "Categoria", "Preço", "Descrição", "Q_estoque" 
 		};
@@ -47,38 +46,37 @@ public class TelaDeProdutos extends JPanel {
 		this.model = new DefaultTableModel(dados,colunas) {
 			@Override
 			public boolean isCellEditable(int row, int column) {
-				return column != 0; // ID column not editable
+				return column != 0; 
 			}
 		};
-		// Cria a JTable com o model (antes a variável table era nula)
 		this.table = new JTable(this.model);
 		scrollPane.setViewportView(this.table);
 		
 		btnVisualizar = new JButton("Visualizar");
-		btnVisualizar.setBounds(372, 75, 100, 23);
+		btnVisualizar.setBounds(390, 74, 100, 23);
 		add(btnVisualizar);
 		
 		btnEditar = new JButton("Editar");
-		btnEditar.setBounds(372, 122, 100, 23);
+		btnEditar.setBounds(390, 122, 100, 23);
 		add(btnEditar);
 		
 		btnDeletar = new JButton("Deletar");
-		btnDeletar.setBounds(372, 170, 100, 23);
+		btnDeletar.setBounds(390, 169, 100, 23);
 		add(btnDeletar);
 		
 		btnAdicionar = new JButton("Adicionar");
-		btnAdicionar.setBounds(372, 220, 100, 23);
+		btnAdicionar.setBounds(390, 218, 100, 23);
 		add(btnAdicionar);
 		
 		btnVoltar = new JButton("Voltar");
-		btnVoltar.setBounds(386, 341, 89, 23);
+		btnVoltar.setBounds(401, 341, 89, 23);
 		add(btnVoltar);
 
 	}
 	
 	public void atualizarTable(ArrayList<Produto> lista) {
-		if (lista == null) return; // Proteção caso a lista seja nula
-		this.model.setRowCount(0); // Clear table before adding new rows
+		if (lista == null) return;
+		this.model.setRowCount(0);
 		for (Produto p : lista) {
 			Object[] newRowData = {p.getId(), p.getNome_produto(), p.getCategoria(), p.getPreco(), p.getDescricao(), p.getQ_estoque()};
 			this.model.addRow(newRowData);
@@ -134,7 +132,6 @@ public class TelaDeProdutos extends JPanel {
 		return model;
 	}
 
-	// Utility methods
 	public Integer getSelectedId() {
 		int row = table.getSelectedRow();
 		if (row != -1) {

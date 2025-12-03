@@ -11,7 +11,6 @@ public class UsuarioDAO {
     public Usuario login(String nome, String cpf) {
         Connection conn = null;
         try {
-            // Normalizar CPF (remover pontos/traços) para comparação consistente
             String cpfNorm = cpf == null ? "" : cpf.replaceAll("\\D+", "");
             if (cpfNorm.length() != 11) {
                 JOptionPane.showMessageDialog(null, "CPF inválido. Insira 11 dígitos.", "Erro de Login", JOptionPane.ERROR_MESSAGE);
@@ -42,7 +41,6 @@ public class UsuarioDAO {
                 stmt.close();
                 return u;
             }
-            // Se não encontrou a combinação nome+CPF, somente retornar null; a controller lida com mensagens específicas
             rs.close();
             stmt.close();
 
@@ -111,14 +109,12 @@ public class UsuarioDAO {
             return;
         }
         
-        // Normalizar CPF (remover pontos/traços) e validar 11 dígitos
         String cpfNorm = u.getCpf() == null ? "" : u.getCpf().replaceAll("\\D+", "");
         if (cpfNorm.length() != 11) {
             JOptionPane.showMessageDialog(null, "CPF inválido. Insira 11 dígitos.", "Erro", JOptionPane.ERROR_MESSAGE);
             return;
         }
-        
-        // Validar tamanho do nome conforme esquema do banco
+     
         if (u.getUsuario().length() > 50) {
             JOptionPane.showMessageDialog(null, "Nome de usu\u00e1rio muito longo (m\u00e1x 50 caracteres)", "Erro", JOptionPane.ERROR_MESSAGE);
             return;
@@ -133,7 +129,6 @@ public class UsuarioDAO {
                 "1234"
             );
 
-            // Checar se CPF já existe antes de inserir (comparar sem formatação)
             String checkSql = "SELECT ID_usuario FROM Usuarios WHERE REPLACE(REPLACE(REPLACE(CPF, '.', ''), '-', ''), ' ', '') = ?";
             PreparedStatement checkStmt = conn.prepareStatement(checkSql);
             checkStmt.setString(1, cpfNorm);
@@ -150,7 +145,6 @@ public class UsuarioDAO {
             String sql = "INSERT INTO Usuarios (nome_usuario, CPF, admin) VALUES (?, ?, ?)";
             PreparedStatement stmt = conn.prepareStatement(sql);
             stmt.setString(1, u.getUsuario());
-            // Armazenar CPF normalizado (apenas dígitos) para consistência
             stmt.setString(2, cpfNorm);
             stmt.setBoolean(3, u.isAdmin());
 

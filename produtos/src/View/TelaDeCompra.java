@@ -41,7 +41,6 @@ public class TelaDeCompra extends JPanel {
 		scrollPane.setBounds(10, 47, 333, 291);
 		add(scrollPane);
 		
-		// Adiciona coluna de ID para corresponder aos dados adicionados no atualizarTable
 		String colunas[]= {
 			"ID", "Nome", "Categoria", "preço", "Descrição", "Q_estoque" 
 		};
@@ -54,7 +53,6 @@ public class TelaDeCompra extends JPanel {
 				return false;
 			}
 		};
-		// Cria a JTable com o model (antes a variável table era nula)
 		this.table = new JTable(this.model);
 		scrollPane.setViewportView(this.table);
 		
@@ -77,8 +75,8 @@ public class TelaDeCompra extends JPanel {
 	}
 	
 	public void atualizarTable(ArrayList<Produto> lista) {
-		if (lista == null) return; // Proteção caso a lista seja nula
-		this.model.setRowCount(0); // Clear table before adding new rows
+		if (lista == null) return;
+		this.model.setRowCount(0);
 		for (Produto p : lista) {
 			Object[] newRowData = {p.getId(), p.getNome_produto(), p.getCategoria(), p.getPreco(), p.getDescricao(), p.getQ_estoque()};
 			this.model.addRow(newRowData);
@@ -151,7 +149,6 @@ public class TelaDeCompra extends JPanel {
         this.btnVoltar = btnVoltar;
     }
 
-    // Utility methods
     public Integer getSelectedId() {
         int row = table.getSelectedRow();
         if (row != -1) {
@@ -163,7 +160,7 @@ public class TelaDeCompra extends JPanel {
     public Integer getSelectedQuantity() {
         int row = table.getSelectedRow();
         if (row != -1) {
-            return (Integer) table.getValueAt(row, 5); // Q_estoque column
+            return (Integer) table.getValueAt(row, 5);
         }
         return null;
     }
@@ -171,7 +168,7 @@ public class TelaDeCompra extends JPanel {
     public String getSelectedProduct() {
         int row = table.getSelectedRow();
         if (row != -1) {
-            return (String) table.getValueAt(row, 1); // Nome column
+            return (String) table.getValueAt(row, 1);
         }
         return null;
     }
@@ -179,7 +176,7 @@ public class TelaDeCompra extends JPanel {
     public Double getSelectedPrice() {
         int row = table.getSelectedRow();
         if (row != -1) {
-            Object value = table.getValueAt(row, 3); // Preço column
+            Object value = table.getValueAt(row, 3);
             if (value instanceof Double) {
                 return (Double) value;
             } else if (value instanceof String) {

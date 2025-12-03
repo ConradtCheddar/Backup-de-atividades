@@ -38,10 +38,8 @@ public class CadastroProdutosController {
                 Produto p = new Produto(nome_produtos, categoria, preco, descricao, estoque);
                 model.cadastrarProdutos(p);
                 
-                // Clear the fields after successful registration
                 view.clearFields();
                 
-                // Navigate back to products screen
                 navegador.navegarPara("Produtos");
                 
             } catch (NumberFormatException ex) {

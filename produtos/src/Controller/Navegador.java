@@ -32,7 +32,6 @@ public class Navegador {
 	 */
 	public void navegarPara(String nome) {
 		this.janela.mostrarTela(nome);
-		// Notify listeners when screen is shown
         if (showListeners.containsKey(nome)) {
             showListeners.get(nome).run();
         }

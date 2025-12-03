@@ -19,15 +19,12 @@ public class CarrinhoController {
         this.model = model;
         this.navegador = navegador;
 
-        // Carregar itens do carrinho ao iniciar
         carregarCarrinho();
 
-        // Voltar para a tela de compra
         this.view.voltar(e -> {
             navegador.navegarPara("compra");
         });
 
-        // Comprar: processa somente o que está no carrinho
         this.view.comprar(e -> {
             try {
                 ArrayList<Produto> itens = model.getCarrinho();
@@ -36,7 +33,6 @@ public class CarrinhoController {
                     return;
                 }
 
-                // Validações: verificar estoque disponível para cada item
                 StringJoiner insuf = new StringJoiner("\n");
                 for (Produto item : itens) {
                     Produto atual = model.buscarProdutoPorId(item.getId());
@@ -52,14 +48,13 @@ public class CarrinhoController {
                     return;
                 }
 
-                // Todas as validações ok — atualizar estoque no banco e montar nota
                 double total = 0.0;
                 StringBuilder nota = new StringBuilder();
                 nota.append("Nota fiscal da compra:\n\n");
 
                 for (Produto item : itens) {
                     Produto atual = model.buscarProdutoPorId(item.getId());
-                    if (atual == null) continue; // já validado
+                    if (atual == null) continue;
 
                     int novoEstoque = atual.getQ_estoque() - item.getQ_estoque();
                     atual.setQ_estoque(novoEstoque);
@@ -77,13 +72,11 @@ public class CarrinhoController {
 
                 nota.append(String.format("\nValor total: R$ %.2f", total));
 
-                // Limpar carrinho e recarregar tabelas
                 model.limparCarrinho();
                 carregarCarrinho();
 
                 JOptionPane.showMessageDialog(view, nota.toString(), "Compra efetuada", JOptionPane.INFORMATION_MESSAGE);
 
-                // Voltar/navegar para a tela de compra (que por sua vez recarrega os produtos)
                 navegador.navegarPara("compra");
 
             } catch (Exception ex) {
@@ -93,7 +86,6 @@ public class CarrinhoController {
             }
         });
 
-        // Atualizar a tabela sempre que a tela for mostrada
         navegador.addShowListener("CARRINHO", () -> carregarCarrinho());
     }
 
